@@ -1,0 +1,395 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<form xmlns="http://www.intellij.com/uidesigner/form/" version="1" bind-to-class="org.zafkiel.frontend.HomePage">
+  <grid id="27dc6" binding="panelHomePage" layout-manager="GridLayoutManager" row-count="19" column-count="10" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+    <margin top="0" left="0" bottom="0" right="0"/>
+    <constraints>
+      <xy x="20" y="20" width="1418" height="774"/>
+    </constraints>
+    <properties/>
+    <border type="none"/>
+    <children>
+      <component id="e4556" class="javax.swing.JButton" binding="SALIRButton" default-binding="true">
+        <constraints>
+          <grid row="17" column="0" row-span="1" col-span="3" vsize-policy="0" hsize-policy="3" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
+        </constraints>
+        <properties>
+          <text value="---   SALIR   ---"/>
+        </properties>
+      </component>
+      <component id="97be1" class="javax.swing.JLabel">
+        <constraints>
+          <grid row="0" column="3" row-span="1" col-span="7" vsize-policy="0" hsize-policy="0" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
+        </constraints>
+        <properties>
+          <font name="Consolas" size="20" style="1"/>
+          <text value="-------------------------"/>
+        </properties>
+      </component>
+      <component id="bcb96" class="javax.swing.JButton" binding="botonMinutoMenos">
+        <constraints>
+          <grid row="3" column="9" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+        </constraints>
+        <properties>
+          <text value="-"/>
+        </properties>
+      </component>
+      <component id="15faf" class="javax.swing.JButton" binding="botonReiniciarHora">
+        <constraints>
+          <grid row="4" column="3" row-span="1" col-span="3" vsize-policy="0" hsize-policy="3" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
+        </constraints>
+        <properties>
+          <text value="---   REINICIAR   ---"/>
+        </properties>
+      </component>
+      <component id="f31d5" class="javax.swing.JLabel">
+        <constraints>
+          <grid row="3" column="8" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
+        </constraints>
+        <properties>
+          <text value="---   MINUTOS   ---"/>
+        </properties>
+      </component>
+      <component id="fc7fb" class="javax.swing.JButton" binding="botonMinutoMas">
+        <constraints>
+          <grid row="3" column="7" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="4" fill="0" indent="0" use-parent-layout="false"/>
+        </constraints>
+        <properties>
+          <text value="+"/>
+        </properties>
+      </component>
+      <component id="98c20" class="javax.swing.JLabel">
+        <constraints>
+          <grid row="1" column="3" row-span="1" col-span="7" vsize-policy="0" hsize-policy="0" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
+        </constraints>
+        <properties>
+          <font name="Consolas" size="20" style="1"/>
+          <text value="---   TRAVEL MAP GT   ---"/>
+        </properties>
+      </component>
+      <component id="726cf" class="javax.swing.JButton" binding="botonBloquearHora">
+        <constraints>
+          <grid row="4" column="6" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
+        </constraints>
+        <properties>
+          <text value="---   BLOQUEAR   ---"/>
+        </properties>
+      </component>
+      <component id="9488f" class="javax.swing.JLabel" binding="labelRutas">
+        <constraints>
+          <grid row="6" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="0" fill="0" indent="0" use-parent-layout="false">
+            <preferred-size width="16" height="17"/>
+          </grid>
+        </constraints>
+        <properties>
+          <text value="Sin rutas."/>
+        </properties>
+      </component>
+      <component id="710bb" class="javax.swing.JLabel">
+        <constraints>
+          <grid row="7" column="0" row-span="1" col-span="3" vsize-policy="0" hsize-policy="0" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
+        </constraints>
+        <properties>
+          <font name="Consolas" size="20" style="1"/>
+          <text value="-------------------------"/>
+        </properties>
+      </component>
+      <component id="af090" class="javax.swing.JLabel">
+        <constraints>
+          <grid row="2" column="3" row-span="1" col-span="7" vsize-policy="0" hsize-policy="0" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
+        </constraints>
+        <properties>
+          <font name="Consolas" size="20" style="1"/>
+          <text value="-------------------------"/>
+        </properties>
+      </component>
+      <component id="a87f7" class="javax.swing.JLabel">
+        <constraints>
+          <grid row="8" column="0" row-span="1" col-span="3" vsize-policy="0" hsize-policy="0" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
+        </constraints>
+        <properties>
+          <text value="Seleccione el Lugar de Origen."/>
+        </properties>
+      </component>
+      <component id="5c2c8" class="javax.swing.JLabel">
+        <constraints>
+          <grid row="10" column="0" row-span="1" col-span="3" vsize-policy="0" hsize-policy="0" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
+        </constraints>
+        <properties>
+          <text value="Seleccione el Lugar deDestino."/>
+        </properties>
+      </component>
+      <component id="1730f" class="javax.swing.JComboBox" binding="comboBoxInicio">
+        <constraints>
+          <grid row="9" column="0" row-span="1" col-span="3" vsize-policy="0" hsize-policy="2" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
+        </constraints>
+        <properties>
+          <model>
+            <item value="---   Seleccione una Opcion   ---"/>
+          </model>
+        </properties>
+      </component>
+      <component id="12e9" class="javax.swing.JLabel">
+        <constraints>
+          <grid row="13" column="0" row-span="1" col-span="3" vsize-policy="0" hsize-policy="0" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
+        </constraints>
+        <properties>
+          <text value="Seleccione el Metodo de Desplazamiento."/>
+        </properties>
+      </component>
+      <component id="3ec9" class="javax.swing.JComboBox" binding="comboBosMetodoDesplazamiento">
+        <constraints>
+          <grid row="14" column="0" row-span="1" col-span="3" vsize-policy="0" hsize-policy="2" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
+        </constraints>
+        <properties>
+          <model>
+            <item value="---   Seleccione una Opcion   ---"/>
+          </model>
+        </properties>
+      </component>
+      <component id="7cf3" class="javax.swing.JButton" binding="botonNuevoViaje">
+        <constraints>
+          <grid row="15" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="0" indent="0" use-parent-layout="false">
+            <preferred-size width="16" height="34"/>
+          </grid>
+        </constraints>
+        <properties>
+          <text value="---   NUEVO VIAJE   ---"/>
+        </properties>
+      </component>
+      <component id="e3fb1" class="javax.swing.JButton" binding="botonIniciarViaje">
+        <constraints>
+          <grid row="15" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="0" indent="0" use-parent-layout="false">
+            <preferred-size width="109" height="34"/>
+          </grid>
+        </constraints>
+        <properties>
+          <text value="---   INICIAR VIAJE   ---"/>
+        </properties>
+      </component>
+      <component id="b34b2" class="javax.swing.JLabel" binding="labelTrafico">
+        <constraints>
+          <grid row="6" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="0" fill="0" indent="0" use-parent-layout="false">
+            <preferred-size width="109" height="17"/>
+          </grid>
+        </constraints>
+        <properties>
+          <text value="Sin Trafico"/>
+        </properties>
+      </component>
+      <scrollpane id="eb31">
+        <constraints>
+          <grid row="5" column="3" row-span="14" col-span="7" vsize-policy="7" hsize-policy="7" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
+        </constraints>
+        <properties/>
+        <border type="none"/>
+        <children>
+          <tabbedpane id="e0499" binding="panelResultados">
+            <constraints/>
+            <properties/>
+            <border type="none"/>
+            <children>
+              <grid id="ad26f" binding="panelRuta" layout-manager="GridLayoutManager" row-count="1" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+                <margin top="0" left="0" bottom="0" right="0"/>
+                <constraints>
+                  <tabbedpane title="---   Ruta   ---"/>
+                </constraints>
+                <properties/>
+                <border type="none"/>
+                <children/>
+              </grid>
+              <grid id="492d7" binding="panelArbol" layout-manager="GridLayoutManager" row-count="1" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+                <margin top="0" left="0" bottom="0" right="0"/>
+                <constraints>
+                  <tabbedpane title="---   Arbol   ---"/>
+                </constraints>
+                <properties/>
+                <border type="none"/>
+                <children/>
+              </grid>
+              <grid id="e8c75" binding="panelReportes" layout-manager="GridLayoutManager" row-count="1" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+                <margin top="0" left="0" bottom="0" right="0"/>
+                <constraints>
+                  <tabbedpane title="---   Reportes   ---"/>
+                </constraints>
+                <properties/>
+                <border type="none"/>
+                <children/>
+              </grid>
+              <grid id="d8c19" binding="panelDebugger" layout-manager="GridLayoutManager" row-count="4" column-count="2" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+                <margin top="0" left="0" bottom="0" right="0"/>
+                <constraints>
+                  <tabbedpane title="DEBUGGER"/>
+                </constraints>
+                <properties>
+                  <enabled value="true"/>
+                </properties>
+                <border type="none"/>
+                <children>
+                  <component id="709cb" class="javax.swing.JLabel">
+                    <constraints>
+                      <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+                    </constraints>
+                    <properties>
+                      <text value="Tabla de rutas con trafico:"/>
+                    </properties>
+                  </component>
+                  <hspacer id="901d">
+                    <constraints>
+                      <grid row="0" column="1" row-span="1" col-span="1" vsize-policy="1" hsize-policy="6" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+                    </constraints>
+                  </hspacer>
+                  <vspacer id="b2640">
+                    <constraints>
+                      <grid row="3" column="0" row-span="1" col-span="1" vsize-policy="6" hsize-policy="1" anchor="0" fill="2" indent="0" use-parent-layout="false"/>
+                    </constraints>
+                  </vspacer>
+                  <scrollpane id="7ed16">
+                    <constraints>
+                      <grid row="1" column="0" row-span="1" col-span="2" vsize-policy="7" hsize-policy="7" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
+                    </constraints>
+                    <properties/>
+                    <border type="none"/>
+                    <children>
+                      <component id="1d137" class="javax.swing.JTable" binding="tablaRutasDebugger">
+                        <constraints/>
+                        <properties/>
+                      </component>
+                    </children>
+                  </scrollpane>
+                  <scrollpane id="b6f47">
+                    <constraints>
+                      <grid row="2" column="0" row-span="1" col-span="2" vsize-policy="7" hsize-policy="7" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
+                    </constraints>
+                    <properties/>
+                    <border type="none"/>
+                    <children/>
+                  </scrollpane>
+                </children>
+              </grid>
+            </children>
+          </tabbedpane>
+        </children>
+      </scrollpane>
+      <component id="6875e" class="javax.swing.JLabel" binding="labelHoraActual">
+        <constraints>
+          <grid row="3" column="6" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
+        </constraints>
+        <properties>
+          <font name="Consolas" size="20" style="1"/>
+          <text value="00 : 00 : 00"/>
+        </properties>
+      </component>
+      <component id="9ac5e" class="javax.swing.JButton" binding="botonCancelarViaje">
+        <constraints>
+          <grid row="15" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+        </constraints>
+        <properties>
+          <text value="-CANCELAR VIAJE-"/>
+        </properties>
+      </component>
+      <vspacer id="45ec4">
+        <constraints>
+          <grid row="18" column="1" row-span="1" col-span="1" vsize-policy="6" hsize-policy="1" anchor="0" fill="2" indent="0" use-parent-layout="false">
+            <preferred-size width="109" height="14"/>
+          </grid>
+        </constraints>
+      </vspacer>
+      <component id="a02ae" class="javax.swing.JLabel">
+        <constraints>
+          <grid row="4" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
+        </constraints>
+        <properties>
+          <text value="---   CARGAR ARCHIVOS   ---"/>
+        </properties>
+      </component>
+      <component id="91cd8" class="javax.swing.JButton" binding="botonCargarRutas">
+        <constraints>
+          <grid row="5" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="0" indent="0" use-parent-layout="false">
+            <preferred-size width="16" height="34"/>
+          </grid>
+        </constraints>
+        <properties>
+          <text value="---   RUTAS   ---"/>
+        </properties>
+      </component>
+      <component id="9b25f" class="javax.swing.JButton" binding="botonCargarTrafico">
+        <constraints>
+          <grid row="5" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="0" indent="0" use-parent-layout="false">
+            <preferred-size width="109" height="34"/>
+          </grid>
+        </constraints>
+        <properties>
+          <text value="---   TRAFICO   ---"/>
+        </properties>
+      </component>
+      <component id="5344" class="javax.swing.JButton" binding="botonLimpiarArchivos">
+        <constraints>
+          <grid row="5" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
+        </constraints>
+        <properties>
+          <text value="LIMPIAR ARCHIVOS"/>
+        </properties>
+      </component>
+      <component id="ffb09" class="javax.swing.JButton" binding="botonHoraMas">
+        <constraints>
+          <grid row="3" column="3" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="4" fill="0" indent="0" use-parent-layout="false"/>
+        </constraints>
+        <properties>
+          <text value="+"/>
+        </properties>
+      </component>
+      <component id="3537f" class="javax.swing.JLabel">
+        <constraints>
+          <grid row="3" column="4" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
+        </constraints>
+        <properties>
+          <text value="---   HORA   ---"/>
+        </properties>
+      </component>
+      <component id="c3a95" class="javax.swing.JButton" binding="botonHoraMenos">
+        <constraints>
+          <grid row="3" column="5" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+        </constraints>
+        <properties>
+          <text value="-"/>
+        </properties>
+      </component>
+      <component id="186e" class="javax.swing.JButton" binding="botonDesbloquearHora">
+        <constraints>
+          <grid row="4" column="7" row-span="1" col-span="3" vsize-policy="0" hsize-policy="3" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
+        </constraints>
+        <properties>
+          <enabled value="true"/>
+          <text value="---   DESBLOQUEAR   ---"/>
+        </properties>
+      </component>
+      <component id="79443" class="javax.swing.JLabel">
+        <constraints>
+          <grid row="16" column="0" row-span="1" col-span="3" vsize-policy="0" hsize-policy="0" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
+        </constraints>
+        <properties>
+          <font name="Consolas" size="20" style="1"/>
+          <text value="-------------------------"/>
+        </properties>
+      </component>
+      <component id="de096" class="javax.swing.JComboBox" binding="comboBoxFin">
+        <constraints>
+          <grid row="11" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="2" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
+        </constraints>
+        <properties>
+          <model>
+            <item value="---   Seleccione una Opcion   ---"/>
+          </model>
+        </properties>
+      </component>
+      <component id="eb5c5" class="javax.swing.JLabel">
+        <constraints>
+          <grid row="12" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+        </constraints>
+        <properties>
+          <text value="Diferentes Rutas."/>
+        </properties>
+      </component>
+    </children>
+  </grid>
+</form>
