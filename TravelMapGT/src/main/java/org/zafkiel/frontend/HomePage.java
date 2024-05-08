@@ -1,14 +1,17 @@
 package org.zafkiel.frontend;
+import org.zafkiel.backend.edd.ManejadorRutas;
+import org.zafkiel.backend.recursos.graphiz.GraphizRutaCompleta;
+
 import javax.swing.*;
+import javax.swing.Timer;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.table.DefaultTableModel;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.*;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Calendar;
-import java.util.GregorianCalendar;
+import java.util.*;
+import java.util.List;
 
 public class HomePage extends JFrame {
     public JPanel panelHomePage;
@@ -25,9 +28,9 @@ public class HomePage extends JFrame {
     private JButton botonCargarTrafico;
     private JLabel labelRutas;
     private JLabel labelTrafico;
-    private JComboBox comboBoxInicio;
-    private JComboBox comboBoxFin;
-    private JComboBox comboBosMetodoDesplazamiento;
+    private JComboBox comboBoxRutaInicio;
+    private JComboBox comboBoxRutaFin;
+    private JComboBox comboBoxTIpoDesplazamiento;
     private JButton botonLimpiarArchivos;
     private JButton botonCancelarViaje;
     private JButton botonNuevoViaje;
@@ -38,18 +41,45 @@ public class HomePage extends JFrame {
     private JPanel panelArbol;
     private JPanel panelDebugger;
     private JPanel panelReportes;
+    private JLabel labelMostrarRutaCompleta;
+    private JButton botonMapaMas;
+    private JButton botonMapaMenos;
+    private JPanel panelViajero;
+    private JComboBox comboBoxSiguienteParada;
+    private JButton botonAvanzar;
+    private JLabel labelRutaOrigen;
+    private JLabel labelRutaFinal;
+    private JLabel labelDistanciaTotal;
+    private JLabel labelHoraInicio;
+    private JLabel labelHoraTotal;
+    private JLabel labelRutaActual;
+    private JLabel labelDesgasteAcumulado;
 
-    ArrayList<String[]> datos = new ArrayList<>();
+
+    public static ArrayList<String[]> datos = new ArrayList<>();
+    List<Nodo> nodos = new ArrayList<>();
+    ImageIcon icono;
+    private int horaBloquear, minutosBloquear, segundosBloquear;
+    private int horaRutaInicio, minutosRutaInicio, segundosRutaInicio;
+    private int horaRutaFinal, minutosRutaFinal, segundosRutaFinal;
 
     //--- VARIABLES DEL RELOJ ---
     private int hora, minutos, segundos;
     public HomePage() {
         //--- Deshabilitamos funciones ---
+        comboBoxRutaInicio.setEnabled(false);
+        comboBoxRutaFin.setEnabled(false);
+        comboBoxTIpoDesplazamiento.setEnabled(false);
         botonDesbloquearHora.setEnabled(false);
         botonCargarTrafico.setEnabled(false);
+        botonCancelarViaje.setEnabled(false);
+        botonNuevoViaje.setEnabled(false);
+        botonIniciarViaje.setEnabled(false);
+        comboBoxSiguienteParada.setEnabled(false);
         //--- Iniciar Reloj ---
         reCalcula();
         actualizarHora();
+
         //--- Iniciamos los parametros ---
         DefaultTableModel modelo1 = new DefaultTableModel();
         modelo1.addColumn(" Origen ");
@@ -63,6 +93,7 @@ public class HomePage extends JFrame {
         modelo1.addColumn(" Trafico_H_Fin ");
         modelo1.addColumn(" Trafico_Prob ");
         tablaRutasDebugger.setModel(modelo1);
+
 
         SALIRButton.addActionListener(new ActionListener() {
             @Override
@@ -139,6 +170,7 @@ public class HomePage extends JFrame {
                 desbloquearControles();
             }
         });
+
         botonCargarRutas.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -163,26 +195,45 @@ public class HomePage extends JFrame {
                                 BufferedReader br = new BufferedReader(new FileReader(selectedFile));
                                 String linea;
                                 datos.clear();
-
+                                HashSet<String> combinacionesUnicas = new HashSet<>();
                                 while ((linea = br.readLine()) != null) {
                                     String[] valores = linea.split("\\|");
                                     if(valores.length ==7 ){
                                         for (int i = 0; i < valores.length; i++) {
                                             valores[i] = valores[i].trim();
-                                        }
-                                        for (int i = 0; i < 3; i++) {
 
-                                            valores = Arrays.copyOf(valores, valores.length + 1);
-                                            valores[valores.length - 1] = "0";
                                         }
+                                        String combinacion = valores[1] + "|" + valores[2];
+                                        if (combinacionesUnicas.contains(combinacion)) {
+                                            for (int i = 0; i < datos.size(); i++) {
+                                                String[] fila = datos.get(i);
+                                                if (fila[1].equals(valores[1]) && fila[2].equals(valores[2])) {
+                                                    datos.set(i, valores);
+                                                    break;
+                                                }
+                                            }
+                                        }else {
+                                            // La combinación no existe, agregarla al conjunto de combinaciones únicas
+                                            combinacionesUnicas.add(combinacion);
+                                            // Agregar los valores al array datos
+                                            for (int i = 0; i < 3; i++) {
+                                                valores = Arrays.copyOf(valores, valores.length + 1);
+                                                valores[valores.length - 1] = "0";
+                                            }
+                                            datos.add(valores);
+                                        }
+
                                         labelRutas.setText(selectedFile.getName());
-                                        datos.add(valores);
+
                                     }else {
-                                        br.close();
                                         labelRutas.setText("Sin Rutas");
                                         labelTrafico.setText("Sin Trafico");
                                         botonCargarTrafico.setEnabled(false);
+                                        labelMostrarRutaCompleta.setIcon(null);
+                                        DefaultTableModel modeloTabla = (DefaultTableModel) tablaRutasDebugger.getModel();
+                                        modeloTabla.setRowCount(0);
                                         JOptionPane.showMessageDialog(null, "Archivo de Carga de Rutas INCORRECTO", "ERROR", JOptionPane.ERROR_MESSAGE);
+                                        return;
                                     }
 
                                 }
@@ -198,12 +249,44 @@ public class HomePage extends JFrame {
                             }
                             tablaRutasDebugger.setModel(modeloTabla);
                             botonCargarTrafico.setEnabled(true);
-                            for (int i = 0; i < datos.size(); i++) {
+                            //--- Mandamos el Array list a dibujar ---
+
+                            GraphizRutaCompleta graphizRutaCompleta = new GraphizRutaCompleta();
+                            graphizRutaCompleta.procesarArrayList(datos);
+                            graphizRutaCompleta.generarArchivoDOT();
+                            graphizRutaCompleta.generarImagenDesdeDOT();
+
+                            //--- LLenamos el Origen ---
+                            comboBoxRutaInicio.setEnabled(true);
+                            ManejadorRutas.llenarRutasOrigen();
+                            for (String[] dato : datos) {
+                                Nodo origen = buscarOCrearNodo(nodos, dato[0]);
+                                Nodo destino = buscarOCrearNodo(nodos, dato[1]);
+                                origen.agregarVecino(destino);
+                            }
+                            comboBoxRutaInicio.removeAllItems();
+                            comboBoxRutaInicio.addItem("---   Seleccione una Opcion   ---");
+                            for (Nodo nodo : nodos) {
+                                comboBoxRutaInicio.addItem(nodo.getId());
+                            }
+
+                            /*comboBoxRutaInicio.removeAllItems();
+                            comboBoxRutaInicio.addItem("---   Seleccione una Opcion   ---");
+                            for (String elemento : ManejadorRutas.rutaOrigenOrdenada) {
+                                comboBoxRutaInicio.addItem(elemento);
+                            }*/
+                            //--- Llenamos el Destino ---
+
+                            //--- Ponemos la Imagen General ---
+                            icono = new ImageIcon("graphvizRutas.png");
+                            labelMostrarRutaCompleta.setIcon(icono);
+
+                            /*for (int i = 0; i < datos.size(); i++) {
                                 String[] fila = datos.get(i);
                                 if (fila[0].equals("Quetzaltenango") && fila[1].equals("Sumpango")) {
                                     System.out.println("El valor de la tercera columna es: " + fila[2] + " en la fila " + i);
                                 }
-                            }
+                            }*/
                         } catch (IOException ex) {
                             ex.printStackTrace();
                         }
@@ -231,11 +314,180 @@ public class HomePage extends JFrame {
                 labelTrafico.setText("Sin Trafico");
             }
         });
+
+        comboBoxRutaInicio.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                String selectedOrigenId = (String) comboBoxRutaInicio.getSelectedItem();
+                comboBoxRutaFin.removeAllItems();
+
+
+                Nodo selectedOrigen = null;
+                for (Nodo nodo : nodos) {
+                    if (nodo.getId().equals(selectedOrigenId)) {
+                        selectedOrigen = nodo;
+                        break;
+                    }
+                }
+
+                if (selectedOrigen == null) {
+                    comboBoxRutaFin.addItem("---   Seleccione una Opcion   ---");
+                    comboBoxRutaFin.setEnabled(false);
+                } else {
+                    comboBoxRutaFin.setEnabled(true);
+                    comboBoxRutaFin.addItem("---   Seleccione una Opcion   ---");
+                    for (Nodo vecino : selectedOrigen.getVecinos()) {
+                        comboBoxRutaFin.addItem(vecino.getId());
+                    }
+                }
+
+            }
+        });
+        comboBoxTIpoDesplazamiento.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                String selectedOrigenId = (String) comboBoxTIpoDesplazamiento.getSelectedItem();
+
+                if (selectedOrigenId == null) {
+                    botonIniciarViaje.setEnabled(false);
+                } else {
+                    if (selectedOrigenId=="---   Seleccione una Opcion   ---") {
+                        botonIniciarViaje.setEnabled(false);
+                    }else {
+                        botonIniciarViaje.setEnabled(true);
+                    }
+                }
+            }
+        });
+        comboBoxRutaFin.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                String selectedOrigenId = (String) comboBoxRutaFin.getSelectedItem();
+                comboBoxTIpoDesplazamiento.removeAllItems();
+
+                if (selectedOrigenId == null) {
+                    comboBoxTIpoDesplazamiento.removeAllItems();
+                    comboBoxTIpoDesplazamiento.addItem("---   Seleccione una Opcion   ---");
+                    comboBoxTIpoDesplazamiento.setEnabled(false);
+                } else {
+                    if (selectedOrigenId=="---   Seleccione una Opcion   ---") {
+                        comboBoxTIpoDesplazamiento.removeAllItems();
+                        comboBoxTIpoDesplazamiento.addItem("---   Seleccione una Opcion   ---");
+                        comboBoxTIpoDesplazamiento.setEnabled(false);
+                    }else {
+                        comboBoxTIpoDesplazamiento.setEnabled(true);
+                        comboBoxTIpoDesplazamiento.removeAllItems();
+                        comboBoxTIpoDesplazamiento.addItem("---   Seleccione una Opcion   ---");
+                        comboBoxTIpoDesplazamiento.addItem("Vehiculo");
+                        comboBoxTIpoDesplazamiento.addItem("Caminando");
+                    }
+                }
+            }
+        });
+        botonMapaMas.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                Image image = icono.getImage();
+                Image newImage = image.getScaledInstance(
+                        (int) (labelMostrarRutaCompleta.getWidth() * 1.1),
+                        (int) (labelMostrarRutaCompleta.getHeight() * 1.1),
+                        Image.SCALE_SMOOTH);
+                icono = new ImageIcon(newImage);
+                labelMostrarRutaCompleta.setIcon(icono);
+            }
+        });
+        botonMapaMenos.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                Image image = icono.getImage();
+                Image newImage = image.getScaledInstance(
+                        (int) (labelMostrarRutaCompleta.getWidth() * 0.9),
+                        (int) (labelMostrarRutaCompleta.getHeight() * 0.9),
+                        Image.SCALE_SMOOTH);
+                icono = new ImageIcon(newImage);
+                labelMostrarRutaCompleta.setIcon(icono);
+            }
+        });
+        botonNuevoViaje.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+
+            }
+        });
         botonIniciarViaje.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                generarArchivoDOT();
-                generarImagenDesdeDOT();
+                labelRutaOrigen.setText((String) comboBoxRutaInicio.getSelectedItem());
+                labelRutaFinal.setText((String) comboBoxRutaFin.getSelectedItem());
+                botonCancelarViaje.setEnabled(true);
+                comboBoxRutaInicio.setEnabled(false);
+                comboBoxRutaFin.setEnabled(false);
+                comboBoxTIpoDesplazamiento.setEnabled(false);
+                String selectedOrigenId = labelRutaOrigen.getText();
+                comboBoxSiguienteParada.removeAllItems();
+
+
+                Nodo selectedOrigen = null;
+                for (Nodo nodo : nodos) {
+                    if (nodo.getId().equals(selectedOrigenId)) {
+                        selectedOrigen = nodo;
+                        break;
+                    }
+                }
+
+                if (selectedOrigen == null) {
+                    comboBoxSiguienteParada.addItem("---   Seleccione una Opcion   ---");
+                    comboBoxSiguienteParada.setEnabled(false);
+                } else {
+                    comboBoxSiguienteParada.setEnabled(true);
+                    comboBoxSiguienteParada.addItem("---   Seleccione una Opcion   ---");
+                    for (Nodo vecino : selectedOrigen.getVecinos()) {
+                        comboBoxSiguienteParada.addItem(vecino.getId());
+                    }
+                }
+
+            }
+        });
+        botonCancelarViaje.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+
+            }
+        });
+        botonAvanzar.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                String selectedOrigenId = (String) comboBoxSiguienteParada.getSelectedItem();
+                comboBoxSiguienteParada.removeAllItems();
+
+
+                Nodo selectedOrigen = null;
+                for (Nodo nodo : nodos) {
+                    if (nodo.getId().equals(selectedOrigenId)) {
+                        selectedOrigen = nodo;
+                        break;
+                    }
+                }
+
+                if (selectedOrigen == null) {
+                    comboBoxSiguienteParada.addItem("---   Seleccione una Opcion   ---");
+                    comboBoxSiguienteParada.setEnabled(false);
+                } else {
+                    comboBoxSiguienteParada.setEnabled(true);
+                    comboBoxSiguienteParada.addItem("---   Seleccione una Opcion   ---");
+                    for (Nodo vecino : selectedOrigen.getVecinos()) {
+                        comboBoxSiguienteParada.addItem(vecino.getId());
+                    }
+                }
+                if(labelHoraActual.equals(labelRutaFinal)){
+                    JOptionPane.showMessageDialog(null, "SE LLEGO AL DESTINO, VER REPORTES DE ESTADO");
+                }
+            }
+        });
+        comboBoxSiguienteParada.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+
             }
         });
     }
@@ -298,44 +550,36 @@ public class HomePage extends JFrame {
         });
         timer.start();
     }
+    static class Nodo {
+        private String id;
+        private List<Nodo> vecinos;
 
-    //---  Graphiz ---
-    public static void generarArchivoDOT() {
-        String contenidoDOT = "digraph finite_state_machine {\n" +
-                "\tfontname=\"Helvetica,Arial,sans-serif\"\n" +
-                "\tnode [fontname=\"Helvetica,Arial,sans-serif\"]\n" +
-                "\tedge [fontname=\"Helvetica,Arial,sans-serif\"]\n" +
-                "\trankdir=LR;\n" +
-                "\tnode [shape = doublecircle]; Ciudad Ciudad2;\n" +
-                "\tnode [shape = circle];\n" +
-                "\tCiudad -> Ciudad2 [label = \"SS(B)\"];\n" +
-                "}";
+        public Nodo(String id) {
+            this.id = id;
+            this.vecinos = new ArrayList<>();
+        }
 
-        try {
-            // Escribimos el contenido en un archivo DOT
-            FileWriter writer = new FileWriter("graphvizRutas.dot");
-            writer.write(contenidoDOT);
-            writer.close();
-            System.out.println("Archivo DOT generado correctamente.");
-        } catch (IOException e) {
-            System.err.println("Error al escribir el archivo DOT: " + e.getMessage());
+        public String getId() {
+            return id;
+        }
+
+        public List<Nodo> getVecinos() {
+            return vecinos;
+        }
+
+        public void agregarVecino(Nodo vecino) {
+            vecinos.add(vecino);
         }
     }
-
-    public static void generarImagenDesdeDOT() {
-        try {
-            // Ejecutamos el comando de Graphviz para generar la imagen desde el archivo DOT
-            ProcessBuilder processBuilder = new ProcessBuilder("dot", "-Tpng", "graphvizRutas.dot", "-o", "graphvizRutas.png");
-            Process process = processBuilder.start();
-            int exitCode = process.waitFor();
-            if (exitCode == 0) {
-                System.out.println("Imagen generada correctamente.");
-            } else {
-                System.err.println("Error al generar la imagen. Código de salida: " + exitCode);
+    private static Nodo buscarOCrearNodo(List<Nodo> nodos, String id) {
+        for (Nodo nodo : nodos) {
+            if (nodo.getId().equals(id)) {
+                return nodo;
             }
-        } catch (IOException | InterruptedException e) {
-            System.err.println("Error al generar la imagen: " + e.getMessage());
         }
+        Nodo nuevoNodo = new Nodo(id);
+        nodos.add(nuevoNodo);
+        return nuevoNodo;
     }
 
 }
