@@ -10,7 +10,7 @@ public class ManejadorRutas {
     public static ArrayList<String[]> rutas = new ArrayList<>();
     public static ArrayList<String> rutaOrigenOrdenada = new ArrayList<>();
 
-    public static void llenarRutasOrigen(){
+    public static void olenarRutasOrigen(){
         rutas = new ArrayList<>(HomePage.datos);
         ordenarRutas();
     }
